@@ -2,11 +2,11 @@ import contentImageProfile from "../images/profile_image.png";
 import contentImageEdit from "../images/VectorEditImage.png";
 import contentImageInclude from "../images/vectoradd.png";
 
-export default function Main() {
+export default function Main(onEditAvatar) {
 
-function handleEditAvatarClick() {
-const popupEditImage = document.querySelector(".photograph")
-popupEditImage.classList.add("popup_opened")
+function editAvatar() {
+  onEditAvatar()
+
 }
 
 function handleEditProfileClick() {
@@ -23,7 +23,7 @@ function handleAddPlaceClick() {
   return (
       <>
         <section className="profile">
-          <button className="profile__button-edit-image" onClick={handleEditAvatarClick}>
+          <button className="profile__button-edit-image" onClick={editAvatar}>
             <img
               className="profile__image"
               src={contentImageProfile}

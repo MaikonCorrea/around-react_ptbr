@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import Card from "./Card";
 import Api from "./Api";
+import PopupWithForm from "./PopupWithForm";
 
 import "../index.css";
 
@@ -46,11 +47,89 @@ export default function App() {
           <img
             className="screen__image-dynamics"
             src="#"
-            alt="Imagem em tela cheia"
+            alt="#"
           />
           <h3 className="screen__popup-title">#</h3>
         </div>
       </form>
+
+      <PopupWithForm
+        name="photograph"
+        title="Alterar a foto do perfil"
+        fields={
+          <>
+            <input
+              className="photograph__input-link input"
+              type="url"
+              name="urlPhoto"
+              placeholder="URL da imagem"
+              required
+            />
+            <span className="span span_urlPhoto-message"></span>
+          </>
+        }
+        submitButtonText="Salvar"
+      />
+
+      {/* Pop-up de Confirmação de Deletar Card */}
+      <PopupWithForm
+        name="delete"
+        title="Tem certeza?"
+        fields={null}
+        submitButtonText="Sim"
+      />
+
+      <PopupWithForm
+        name="edit"
+        title="Editar perfil"
+        fields={
+          <>
+            <input
+              className="edit__input-name edit__input-name:focus"
+              type="text"
+              name="name"
+              placeholder="Nome"
+              required
+            />
+            <span className="span span_name-message"></span>
+            <input
+              className="edit__input-about"
+              type="text"
+              name="about"
+              placeholder="Sobre mim"
+              required
+            />
+            <span className="span span_about-message"></span>
+          </>
+        }
+        submitButtonText="Salvar"
+      />
+
+      <PopupWithForm
+        name="include"
+        title="Novo local"
+        fields={
+          <>
+            <input
+              className="include__input-title input"
+              type="text"
+              name="title"
+              placeholder="Título"
+              required
+            />
+            <span className="span span_title-message"></span>
+            <input
+              className="include__input-link input"
+              type="url"
+              name="url"
+              placeholder="URL da imagem"
+              required
+            />
+            <span className="span span_url-message"></span>
+          </>
+        }
+        submitButtonText="Criar"
+      />
 
       <Footer />
     </>

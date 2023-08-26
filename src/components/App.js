@@ -9,12 +9,13 @@ import PopupWithForm from "./PopupWithForm";
 import "../index.css";
 
 export default function App() {
+  const [cards, setCards] = useState([]);
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isSelectedCardId, setSelectedCardId] = useState(null);
+  const [isSelectedCardId, setSelectedCardId] = useState(false);
 
-  const [cards, setCards] = useState([]);
 
   const clientAPI = new Api({
     baseUrl: "https://around.nomoreparties.co/v1/web_ptbr_05",
@@ -26,8 +27,8 @@ export default function App() {
       setCards(result);
     });
   }, []);
-  
-  
+
+    
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -41,7 +42,7 @@ export default function App() {
   }
 
   function handleConfirmDeleteClick(id) {
-    setSelectedCardId(id)
+    setSelectedCardId(true)
     console.log(id)
    /*  if (setSelectedCardId) {
       clientAPI.deleteCard(setSelectedCardId).then(() => {
@@ -49,6 +50,13 @@ export default function App() {
         setSelectedCardId(null);
       });
     } */
+  }
+
+  function closeAllPopus() {
+    setSelectedCardId(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
   }
 
   return (
@@ -62,7 +70,8 @@ export default function App() {
       <ul className="gallery">
         {cards.map((card, index) => (
           <Card key={index} card={card} 
-          onDelete={handleConfirmDeleteClick}/>
+          onDelete={handleConfirmDeleteClick}
+          />
         ))}
       </ul>
       {/* Pop-up de Edição de Foto de Perfil */}
@@ -70,6 +79,7 @@ export default function App() {
         name="photograph"
         title="Alterar a foto do perfil"
         isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopus}
       >
         <input
           className="photograph__input-link input"
@@ -84,6 +94,8 @@ export default function App() {
         name="delete"
         title="Tem certeza?"
         isOpen={isSelectedCardId}
+        onClose={closeAllPopus}
+
       />)}
 
       {/* Pop-up de edição de perfil */}
@@ -91,6 +103,8 @@ export default function App() {
         name="edit"
         title="Editar perfil"
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopus}
+
       >
         <input
           className="edit__input-name edit__input-name:focus"
@@ -113,6 +127,8 @@ export default function App() {
         name="include"
         title="Novo local"
         isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopus}
+
       >
         <input
           className="include__input-title input"

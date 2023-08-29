@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 export default function ImagePopup({ card, isOpen, onClose }) {
   const [shouldRenderPopup, setShouldRenderPopup] = useState(false);
@@ -58,15 +58,22 @@ export default function ImagePopup({ card, isOpen, onClose }) {
     }
   };
   return (
-    <div className={`screen ${shouldRenderPopup ? "screen__image_opened" : ""} ${
-      isClosing ? "screen__image_closing" : ""
-    }`} onClick={handleOverlayClick}>
+    <div
+      className={`screen ${shouldRenderPopup ? "screen__image_opened" : ""} ${
+        isClosing ? "screen__image_closing" : ""
+      }`}
+      onClick={handleOverlayClick}
+    >
       <div className="screen__image-popup">
         <button
           className={`screen__button-close-popup button-close-popup`}
           onClick={handleOverlayClick}
         ></button>
-        <img className="screen__image-dynamics" src={card.link} alt={card.name} />
+        <img
+          className="screen__image-dynamics"
+          src={card.link}
+          alt={card.name}
+        />
         <h3 className="screen__popup-title">{card.name}</h3>
       </div>
     </div>

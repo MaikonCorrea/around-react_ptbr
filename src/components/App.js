@@ -4,7 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import Card from "./Card";
 import PopupWithForm from "./PopupWithForm";
-import ImagePopup from "./ImagePopup"
+import ImagePopup from "./ImagePopup";
 
 import "../index.css";
 
@@ -12,7 +12,7 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null)
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -30,11 +30,11 @@ export default function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setSelectedCard(null)
+    setSelectedCard(null);
   }
 
   function handleCardClick(card) {
-    setSelectedCard(card)
+    setSelectedCard(card);
   }
 
   return (
@@ -46,17 +46,12 @@ export default function App() {
         onEditProfileClick={handleEditProfileClick}
       />
 
-      <Card onCardClick={handleCardClick}/>
+      <Card onCardClick={handleCardClick} />
 
       {selectedCard && (
-      <ImagePopup 
-      card={selectedCard}
-      isOpen={true}
-      onClose={closeAllPopus}
-      />)}
+        <ImagePopup card={selectedCard} isOpen={true} onClose={closeAllPopus} />
+      )}
 
-
-      {/* Pop-up de Edição de Foto de Perfil */}
       {isEditAvatarPopupOpen && (
         <PopupWithForm
           name="photograph"
@@ -74,7 +69,6 @@ export default function App() {
         </PopupWithForm>
       )}
 
-      {/* Pop-up de edição de perfil */}
       {isEditProfilePopupOpen && (
         <PopupWithForm
           name="edit"
@@ -99,7 +93,6 @@ export default function App() {
         </PopupWithForm>
       )}
 
-      {/* Pop-up de edição de perfil */}
       {isAddPlacePopupOpen && (
         <PopupWithForm
           name="include"

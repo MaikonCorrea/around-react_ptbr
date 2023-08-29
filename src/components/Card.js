@@ -13,15 +13,19 @@ export default function Card(props) {
   }, []);
 
   function handleClick(card) {
-    props.onCardClick(card);   
-  }  
-
+    props.onCardClick(card);
+  }
 
   return (
     <ul className="gallery">
       {cards.map((card, index) => (
         <li className="place" key={index}>
-          <img className="place__image" src={card.link} alt={card.name} onClick={() => handleClick(card)} />
+          <img
+            className="place__image"
+            src={card.link}
+            alt={card.name}
+            onClick={() => handleClick(card)}
+          />
           <button className="place__button-delete">
             <img src={iconDelete} alt="botão para excluir postagem" />
           </button>

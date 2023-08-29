@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import Card from "./Card";
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup"
 
 import "../index.css";
 
@@ -11,6 +12,7 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null)
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -28,6 +30,11 @@ export default function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setSelectedCard(null)
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card)
   }
 
   return (
@@ -39,7 +46,15 @@ export default function App() {
         onEditProfileClick={handleEditProfileClick}
       />
 
-      <Card />
+      <Card onCardClick={handleCardClick}/>
+
+      {selectedCard && (
+      <ImagePopup 
+      card={selectedCard}
+      isOpen={true}
+      onClose={closeAllPopus}
+      />)}
+
 
       {/* Pop-up de Edição de Foto de Perfil */}
       {isEditAvatarPopupOpen && (

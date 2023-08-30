@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import Card from "./Card";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import { clientAPI } from "../utils/Api";
 
 import "../index.css";
 
@@ -13,9 +13,17 @@ export default function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    clientAPI.getCards().then((result) => {
+      setCards(result);
+    });
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
+    console.log(cards);
   }
 
   function handleEditProfileClick() {
@@ -44,9 +52,9 @@ export default function App() {
         onAddPlaceClick={handleAddPlaceClick}
         onEditAvatarClick={handleEditAvatarClick}
         onEditProfileClick={handleEditProfileClick}
+        cards={cards}
+        onCardClick={handleCardClick}
       />
-
-      <Card onCardClick={handleCardClick} />
 
       {selectedCard && (
         <ImagePopup card={selectedCard} isOpen={true} onClose={closeAllPopus} />

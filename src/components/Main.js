@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import Card from "./Card";
 import contentImageEdit from "../images/VectorEditImage.png";
 import contentImageInclude from "../images/vectoradd.png";
 import { clientAPI } from "../utils/Api";
@@ -8,10 +8,13 @@ export default function Main({
   onEditProfileClick,
   onAddPlaceClick,
   onEditAvatarClick,
+  cards,
+  onCardClick,
 }) {
   const [userName, setUserName] = useState("");
   const [userDescription, setUserDescription] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
+  const hasCards = Boolean(cards.length);
 
   useEffect(() => {
     clientAPI.getUsers().then((res) => {
@@ -63,6 +66,14 @@ export default function Main({
           />
         </button>
       </section>
+
+      {hasCards && (
+        <ul className="gallery">
+          {cards.map((card, index) => (
+            <Card key={index} card={card} onCardClick={onCardClick} />
+          ))}
+        </ul>
+      )}
     </>
   );
 }

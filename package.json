@@ -38,8 +38,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.0.0",
-    "homepage": "https://maikoncorrea.github.io/around-react"
+    "gh-pages": "^6.0.0"
  
   }
 }

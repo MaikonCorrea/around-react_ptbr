@@ -23,7 +23,6 @@ export default function App() {
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-    console.log(cards);
   }
 
   function handleEditProfileClick() {

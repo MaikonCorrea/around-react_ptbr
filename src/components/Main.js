@@ -22,7 +22,7 @@ export default function Main({
       setUserAvatar(res.avatar);
       setUserDescription(res.about);
     });
-  });
+  },[]);
 
   return (
     <>

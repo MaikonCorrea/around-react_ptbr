@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { clientAPI } from "../utils/Api";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 import "../index.css";
 
@@ -14,6 +15,16 @@ export default function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
+  
+  const [currentUser, setCurrentUser] = useState({});
+  useEffect(() => {
+    clientAPI.getUsers()
+    .then((res) => {
+      setCurrentUser(res);
+  })
+  },[]);
+  
+
 
   useEffect(() => {
     clientAPI.getCards().then((result) => {
@@ -45,15 +56,17 @@ export default function App() {
   }
 
   return (
-    <>
+   <>
       <Header />
-      <Main
-        onAddPlaceClick={handleAddPlaceClick}
-        onEditAvatarClick={handleEditAvatarClick}
-        onEditProfileClick={handleEditProfileClick}
-        cards={cards}
-        onCardClick={handleCardClick}
-      />
+        <CurrentUserContext.Provider value={currentUser}>
+          <Main
+            onAddPlaceClick={handleAddPlaceClick}
+            onEditAvatarClick={handleEditAvatarClick}
+            onEditProfileClick={handleEditProfileClick}
+            cards={cards}
+            onCardClick={handleCardClick}
+          />
+        </CurrentUserContext.Provider>
 
       {selectedCard && (
         <ImagePopup card={selectedCard} isOpen={true} onClose={closeAllPopus} />
@@ -126,5 +139,6 @@ export default function App() {
 
       <Footer />
     </>
+
   );
 }

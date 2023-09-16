@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+/* import React, { useEffect, useState } from "react"; */
 import Card from "./Card";
 import contentImageEdit from "../images/VectorEditImage.png";
 import contentImageInclude from "../images/vectoradd.png";
-import { clientAPI } from "../utils/Api";
+import CurrentUserContext  from "../contexts/CurrentUserContext"
+import React from "react";
+
 
 export default function Main({
   onEditProfileClick,
@@ -11,19 +13,10 @@ export default function Main({
   cards,
   onCardClick,
 }) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
+  
   const hasCards = Boolean(cards.length);
 
-  useEffect(() => {
-    clientAPI.getUsers().then((res) => {
-      setUserName(res.name);
-      setUserAvatar(res.avatar);
-      setUserDescription(res.about);
-    });
-  },[]);
-
+  const currentUser = React.useContext(CurrentUserContext)
   return (
     <>
       <section className="profile">
@@ -34,13 +27,13 @@ export default function Main({
         >
           <img
             className="profile__image"
-            src={userAvatar}
+            src={currentUser.avatar}
             alt="imagem de perfil do usuário"
           />
         </button>
         <div className="profile__info">
           <p className="profile__info-name" id="profileName">
-            {userName}
+            {currentUser.name}
           </p>
           <button
             className="profile__button-info"
@@ -53,7 +46,7 @@ export default function Main({
               alt="botão para alterar perfil"
             />
           </button>
-          <p className="profile__info-discription">{userDescription}</p> //
+          <p className="profile__info-discription">{currentUser.about}</p> //
         </div>
         <button
           className="profile__button-include"

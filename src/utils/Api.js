@@ -22,7 +22,7 @@ export default class Api {
         }
       })
       .catch((err) => {
-        alert(`Falha na solicitação com status ${err.status}`);
+        console.log(`Falha na solicitação com status ${err.status}`);
       });
   }
 

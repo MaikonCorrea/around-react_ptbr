@@ -4,8 +4,10 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
 import { clientAPI } from "../utils/Api";
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import CurrentUserContext  from "../contexts/CurrentUserContext";
+import CurrentCardsContext from "../contexts/CurrentCardsContext";
 
 import "../index.css";
 
@@ -15,8 +17,8 @@ export default function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  
   const [currentUser, setCurrentUser] = useState({});
+
   useEffect(() => {
     clientAPI.getUsers()
     .then((res) => {
@@ -24,13 +26,12 @@ export default function App() {
   })
   },[]);
   
-
-
   useEffect(() => {
     clientAPI.getCards().then((result) => {
       setCards(result);
     });
   }, []);
+
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -54,18 +55,22 @@ export default function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
   }
+  
 
   return (
    <>
       <Header />
         <CurrentUserContext.Provider value={currentUser}>
+        <CurrentCardsContext.Provider value={cards}>
+
           <Main
             onAddPlaceClick={handleAddPlaceClick}
             onEditAvatarClick={handleEditAvatarClick}
             onEditProfileClick={handleEditProfileClick}
-            cards={cards}
             onCardClick={handleCardClick}
+            setCards={setCards}
           />
+        </CurrentCardsContext.Provider>
         </CurrentUserContext.Provider>
 
       {selectedCard && (
@@ -90,27 +95,7 @@ export default function App() {
       )}
 
       {isEditProfilePopupOpen && (
-        <PopupWithForm
-          name="edit"
-          title="Editar perfil"
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopus}
-        >
-          <input
-            className="edit__input-name edit__input-name:focus"
-            type="text"
-            name="name"
-            placeholder="Nome"
-          />
-          <span className="span span_name-message"></span>
-          <input
-            className="edit__input-about"
-            type="text"
-            name="about"
-            placeholder="Sobre mim"
-          />
-          <span className="span span_about-message"></span>
-        </PopupWithForm>
+         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopus}/>
       )}
 
       {isAddPlacePopupOpen && (

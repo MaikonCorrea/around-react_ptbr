@@ -1,22 +1,49 @@
-/* import React, { useEffect, useState } from "react"; */
+import React from "react";
 import Card from "./Card";
 import contentImageEdit from "../images/VectorEditImage.png";
 import contentImageInclude from "../images/vectoradd.png";
-import CurrentUserContext  from "../contexts/CurrentUserContext"
-import React from "react";
-
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import CurrentCardsContext from "../contexts/CurrentCardsContext";
+import { clientAPI } from "../utils/Api";
 
 export default function Main({
   onEditProfileClick,
   onAddPlaceClick,
   onEditAvatarClick,
-  cards,
   onCardClick,
+  setCards,
 }) {
-  
+  const currentUser = React.useContext(CurrentUserContext);
+  const cards = React.useContext(CurrentCardsContext);
   const hasCards = Boolean(cards.length);
 
-  const currentUser = React.useContext(CurrentUserContext)
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const apiMethod = isLiked ? 'deleteLike' : 'addLike';
+
+    clientAPI[apiMethod](card._id)
+      .then((updatedCard) => {
+        const updatedCards = cards.map((c) =>
+        c._id === updatedCard._id ? updatedCard : c
+      );
+      setCards(updatedCards);
+      })
+      .catch((error) => {
+        console.error("Erro ao atualizar a curtida:", error);
+      });
+  }
+//precisa avaliar a lógica pra saber se está correta, mas não tem card para excluir
+  function handleCardDelete(card) {
+    clientAPI
+    .deleteCard(card._id)
+    .then((updatedCard) => {
+      const updatedCards = cards.filter((c) => 
+      c._id === updatedCard._id ? updatedCard : c
+      );
+      setCards(updatedCards);
+    })
+    }
+  
   return (
     <>
       <section className="profile">
@@ -63,7 +90,13 @@ export default function Main({
       {hasCards && (
         <ul className="gallery">
           {cards.map((card, index) => (
-            <Card key={index} card={card} onCardClick={onCardClick} />
+            <Card
+              key={index}
+              card={card}
+              onCardClick={onCardClick}
+              onCardLike={handleCardLike}
+               onCardDelete={handleCardDelete}
+            />
           ))}
         </ul>
       )}

@@ -75,6 +75,7 @@
 @import url(./blocks/place/__image/place__image.css);
 @import url(./blocks/place/__data/place__data.css);
 @import url(./blocks/place/__button-delete/place__button-delete.css);
+@import url(./blocks/place/__button-delete_visible/__button-delete_visible.css);
 @import url(./blocks/place/__button-like/place__button-like.css);
 @import url(./blocks/place/__button-like_active/place__button-like_active.css);
 @import url(./blocks/place/__like-number/place__like-number.css);

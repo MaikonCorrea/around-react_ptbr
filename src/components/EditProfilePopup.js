@@ -2,7 +2,7 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 
-export default function EditProfilePopup() {
+export default function EditProfilePopup( isOpen, onClose ) {
     
     return(
         <PopupWithForm

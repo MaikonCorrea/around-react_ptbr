@@ -58,6 +58,11 @@ export default function PopupWithForm(props) {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.onSubmit();// Chama a função onSubmit passada como prop
+  };
+
   return (
     <form
       className={`${props.name} ${shouldRenderPopup ? "popup_opened" : ""} ${
@@ -65,6 +70,7 @@ export default function PopupWithForm(props) {
       }`}
       name={props.name}
       onClick={handleOverlayClick}
+     
     >
       <div className={`${props.name}__popup`}>
         <h2 className={`${props.name}__popup-title`}>{props.title}</h2>
@@ -74,6 +80,7 @@ export default function PopupWithForm(props) {
           className={`${props.name}__button-save`}
           type="submit"
           disabled={props.isSaving}
+          onClick={handleSubmit}
         >
           <span className={`loading-button-text`}>
             {props.isSaving ? "Salvando..." : "Salvar"}

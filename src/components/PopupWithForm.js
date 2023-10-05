@@ -60,7 +60,7 @@ export default function PopupWithForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onSubmit();// Chama a função onSubmit passada como prop
+    props.onSubmit();
   };
 
   return (

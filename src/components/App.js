@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import { clientAPI } from "../utils/Api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentCardsContext from "../contexts/CurrentCardsContext";
@@ -54,7 +55,7 @@ export default function App() {
     setSelectedCard(card);
   }
 
-  function handleSubmit(updatedUser) {
+  function handleUpdateUser(updatedUser) {
     clientAPI
       .updateDescriptionPerfil(updatedUser)
       .then((res) => {
@@ -63,6 +64,18 @@ export default function App() {
       })
       .catch((error) => {
         console.error("Erro ao atualizar o perfil:", error);
+      });
+  }
+
+  function handleUpdateAvatar(onUpdateAvatar) {
+    clientAPI
+      .getProfilePicture(onUpdateAvatar)
+      .then((res) => {
+        setCurrentUser(res);
+        setIsEditAvatarPopupOpen(false);
+      })
+      .catch((error) => {
+        console.error("Erro ao atualizar o avatar:", error);
       });
   }
 
@@ -78,6 +91,7 @@ export default function App() {
             onCardClick={handleCardClick}
             setCards={setCards}
           />
+          
 
           {selectedCard && (
             <ImagePopup
@@ -88,28 +102,20 @@ export default function App() {
           )}
 
           {isEditAvatarPopupOpen && (
-            <PopupWithForm
-              name="photograph"
-              title="Alterar a foto do perfil"
+            <EditAvatarPopup
               isOpen={isEditAvatarPopupOpen}
               onClose={closeAllPopups}
-            >
-              <input
-                className="photograph__input-link input"
-                type="url"
-                name="urlPhoto"
-                placeholder="URL da imagem"
-              ></input>
-              <span className="span span_urlPhoto-message"></span>
-            </PopupWithForm>
+              onSave={handleUpdateAvatar}
+              onUpdateAvatar={handleUpdateAvatar}
+            />
           )}
 
           {isEditProfilePopupOpen && (
             <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
               onClose={closeAllPopups}
-              onSave={handleSubmit}
-              onUpdateUser={handleSubmit}
+              onSave={handleUpdateUser}
+              onUpdateUser={handleUpdateUser}
             />
           )}
 

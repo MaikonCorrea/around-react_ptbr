@@ -18,6 +18,7 @@ export default function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
+
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
@@ -78,6 +79,29 @@ export default function App() {
         console.error("Erro ao atualizar o avatar:", error);
       });
   }
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const apiMethod = isLiked ? "deleteLike" : "addLike";
+
+    clientAPI[apiMethod](card._id)
+      .then((updatedCard) => {
+        const updatedCards = cards.map((c) =>
+          c._id === updatedCard._id ? updatedCard : c
+        );
+        setCards(updatedCards);
+      })
+      .catch((error) => {
+        console.error("Erro ao atualizar a curtida:", error);
+      });
+  }
+
+  function handleCardDelete(card) {
+    clientAPI.deleteCard(card._id).then(() => {
+      const updatedCards = cards.filter((c) =>
+        c._id !== card._id);
+      setCards(updatedCards);
+    });
+  }
 
   return (
     <>
@@ -85,11 +109,14 @@ export default function App() {
       <CurrentUserContext.Provider value={currentUser}>
         <CurrentCardsContext.Provider value={cards}>
           <Main
-            onAddPlaceClick={handleAddPlaceClick}
-            onEditAvatarClick={handleEditAvatarClick}
-            onEditProfileClick={handleEditProfileClick}
-            onCardClick={handleCardClick}
-            setCards={setCards}
+         onAddPlaceClick={handleAddPlaceClick}
+         onEditAvatarClick={handleEditAvatarClick}
+         onEditProfileClick={handleEditProfileClick}
+         onCardClick={handleCardClick}
+         setCards={setCards}
+         cards={cards} // Passa a variável cards como uma prop para o componente Main
+         onCardLike={handleCardLike} // Passa a função handleCardLike como uma prop
+         onCardDelete={handleCardDelete}
           />
           
 

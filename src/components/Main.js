@@ -12,38 +12,13 @@ export default function Main({
   onEditAvatarClick,
   onCardClick,
   setCards,
+  cards, // Receba a variável cards como uma prop
+  onCardLike, // Receba a função onCardLike como uma prop
+  onCardDelete,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
-  const cards = React.useContext(CurrentCardsContext);
   const hasCards = Boolean(cards.length);
 
-  function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    const apiMethod = isLiked ? 'deleteLike' : 'addLike';
-
-    clientAPI[apiMethod](card._id)
-      .then((updatedCard) => {
-        const updatedCards = cards.map((c) =>
-        c._id === updatedCard._id ? updatedCard : c
-      );
-      setCards(updatedCards);
-      })
-      .catch((error) => {
-        console.error("Erro ao atualizar a curtida:", error);
-      });
-  }
-//precisa avaliar a lógica pra saber se está correta, mas não tem card para excluir
-  function handleCardDelete(card) {
-    clientAPI
-    .deleteCard(card._id)
-    .then((updatedCard) => {
-      const updatedCards = cards.filter((c) => 
-      c._id === updatedCard._id ? updatedCard : c
-      );
-      setCards(updatedCards);
-    })
-    }
-  
   return (
     <>
       <section className="profile">
@@ -94,8 +69,8 @@ export default function Main({
               key={index}
               card={card}
               onCardClick={onCardClick}
-              onCardLike={handleCardLike}
-               onCardDelete={handleCardDelete}
+              onCardLike={onCardLike} // Passa a função onCardLike para o Card
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>

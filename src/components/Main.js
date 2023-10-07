@@ -3,17 +3,14 @@ import Card from "./Card";
 import contentImageEdit from "../images/VectorEditImage.png";
 import contentImageInclude from "../images/vectoradd.png";
 import CurrentUserContext from "../contexts/CurrentUserContext";
-import CurrentCardsContext from "../contexts/CurrentCardsContext";
-import { clientAPI } from "../utils/Api";
 
 export default function Main({
   onEditProfileClick,
   onAddPlaceClick,
   onEditAvatarClick,
   onCardClick,
-  setCards,
-  cards, // Receba a variável cards como uma prop
-  onCardLike, // Receba a função onCardLike como uma prop
+  cards,
+  onCardLike,
   onCardDelete,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -69,7 +66,7 @@ export default function Main({
               key={index}
               card={card}
               onCardClick={onCardClick}
-              onCardLike={onCardLike} // Passa a função onCardLike para o Card
+              onCardLike={onCardLike}
               onCardDelete={onCardDelete}
             />
           ))}

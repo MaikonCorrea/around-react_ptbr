@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -97,28 +97,32 @@ export default function App() {
 
   function handleCardDelete(card) {
     clientAPI.deleteCard(card._id).then(() => {
-      const updatedCards = cards.filter((c) =>
-        c._id !== card._id);
+      const updatedCards = cards.filter((c) => c._id !== card._id);
       setCards(updatedCards);
     });
   }
 
+  function handleAddPlaceSubmit(handleAddPlaceSubmit) {
+    clientAPI.createCards(handleAddPlaceSubmit).then((newCard) => {
+      setCards([newCard, ...cards]);
+      setIsAddPlacePopupOpen(false);
+    });
+  }
   return (
     <>
       <Header />
       <CurrentUserContext.Provider value={currentUser}>
         <CurrentCardsContext.Provider value={cards}>
           <Main
-         onAddPlaceClick={handleAddPlaceClick}
-         onEditAvatarClick={handleEditAvatarClick}
-         onEditProfileClick={handleEditProfileClick}
-         onCardClick={handleCardClick}
-         setCards={setCards}
-         cards={cards} // Passa a variável cards como uma prop para o componente Main
-         onCardLike={handleCardLike} // Passa a função handleCardLike como uma prop
-         onCardDelete={handleCardDelete}
+            onAddPlaceClick={handleAddPlaceClick}
+            onEditAvatarClick={handleEditAvatarClick}
+            onEditProfileClick={handleEditProfileClick}
+            onCardClick={handleCardClick}
+            setCards={setCards}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
-          
 
           {selectedCard && (
             <ImagePopup
@@ -139,7 +143,7 @@ export default function App() {
 
           {isEditProfilePopupOpen && (
             <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
+              isOpen={handleEditProfileClick}
               onClose={closeAllPopups}
               onSave={handleUpdateUser}
               onUpdateUser={handleUpdateUser}
@@ -147,27 +151,11 @@ export default function App() {
           )}
 
           {isAddPlacePopupOpen && (
-            <PopupWithForm
-              name="include"
-              title="Novo local"
-              isOpen={isAddPlacePopupOpen}
+            <AddPlacePopup
+              isOpen={handleAddPlaceClick}
               onClose={closeAllPopups}
-            >
-              <input
-                className="include__input-title input"
-                type="text"
-                name="title"
-                placeholder="Título"
-              />
-              <span className="span span_name-message"></span>
-              <input
-                className="include__input-link input"
-                type="url"
-                name="url"
-                placeholder="URL da imagem"
-              />
-              <span className="span span_about-message"></span>
-            </PopupWithForm>
+              onAddPlaceSubmit={handleAddPlaceSubmit}
+            />
           )}
 
           <Footer />

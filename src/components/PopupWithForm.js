@@ -70,16 +70,17 @@ export default function PopupWithForm(props) {
       }`}
       name={props.name}
       onClick={handleOverlayClick}
-     
     >
       <div className={`${props.name}__popup`}>
         <h2 className={`${props.name}__popup-title`}>{props.title}</h2>
         {props.children}
         <button
           name="button"
-          className={`${props.name}__button-save`}
+          className={`${props.name}__button-save ${
+            !props.isValueValid ? `${props.name}__button-save_disabled` : ""
+          }`}
           type="submit"
-          disabled={props.isSaving}
+          disabled={!props.isValueValid || props.isSaving}
           onClick={handleSubmit}
         >
           <span className={`loading-button-text`}>

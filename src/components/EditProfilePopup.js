@@ -6,6 +6,9 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const currentUser = useContext(CurrentUserContext);
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(true);
+  const isValueValid = isNameValid && isDescriptionValid;
 
   useEffect(() => {
     if (isOpen) {
@@ -15,11 +18,15 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   }, [isOpen, currentUser]);
 
   const handleNameChange = (e) => {
-    setName(e.target.value);
+    const newName = e.target.value;
+    setName(newName);
+    setIsNameValid(newName.length >= 2);
   };
 
   const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
+    const newDescription = e.target.value;
+    setDescription(newDescription);
+    setIsDescriptionValid(newDescription.length >= 2);
   };
 
   const handleSubmit = () => {
@@ -36,6 +43,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isValueValid={isValueValid}
     >
       <input
         className="edit__input-name edit__input-name:focus"
@@ -44,8 +52,11 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         placeholder="Nome"
         value={name}
         onChange={handleNameChange}
+        maxLength={40}
       />
-      <span className="span span_name-message"></span>
+      <span className="span span_name-message">
+        {!isNameValid && "O nome deve mais de 2 caracteres"}
+      </span>
       <input
         className="edit__input-about"
         type="text"
@@ -53,8 +64,11 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         placeholder="Sobre mim"
         value={description}
         onChange={handleDescriptionChange}
+        maxLength={200}
       />
-      <span className="span span_about-message"></span>
+      <span className="span span_about-message">
+        {!isDescriptionValid && "A descrição deve conter mais de 2 caracteres"}
+      </span>
     </PopupWithForm>
   );
 }

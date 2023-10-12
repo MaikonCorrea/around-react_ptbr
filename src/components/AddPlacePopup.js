@@ -3,6 +3,7 @@ import PopupWithForm from "./PopupWithForm";
 import { owner } from "../utils/constants";
 
 export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
+
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isTitleValid, setIsTitleValid] = useState(false);

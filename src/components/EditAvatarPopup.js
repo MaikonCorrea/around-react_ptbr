@@ -2,9 +2,11 @@ import React, { useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+
   const avatarInputRef = useRef(null);
   const [avatarError, setAvatarError] = useState("");
   const [isValueValid, setIsValueValid] = useState(false);
+
 
   const handleSubmit = () => {
     const avatarSrc = avatarInputRef.current.value;

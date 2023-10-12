@@ -57,7 +57,7 @@ export default function App() {
   }
 
   function handleUpdateUser(updatedUser) {
-    renderLoading(true)
+    renderLoading(true);
     clientAPI
       .updateDescriptionPerfil(updatedUser)
       .then((res) => {
@@ -68,7 +68,7 @@ export default function App() {
         console.error("Erro ao atualizar o perfil:", error);
       })
       .finally(() => {
-        renderLoading(false)
+        renderLoading(false);
       });
   }
 
@@ -84,7 +84,7 @@ export default function App() {
         console.error("Erro ao atualizar o avatar:", error);
       })
       .finally(() => {
-        renderLoading(false)
+        renderLoading(false);
       });
   }
   function handleCardLike(card) {
@@ -99,7 +99,7 @@ export default function App() {
       })
       .catch((error) => {
         console.error("Erro ao atualizar a curtida:", error);
-      })
+      });
   }
 
   function handleCardDelete(card) {
@@ -110,16 +110,18 @@ export default function App() {
   }
 
   function handleAddPlaceSubmit(handleAddPlaceSubmit) {
-    renderLoading(true)
-    clientAPI.createCards(handleAddPlaceSubmit).then((newCard) => {
-      setCards([newCard, ...cards]);
-      setIsAddPlacePopupOpen(false);
-    })
-    .finally(() => {
-      renderLoading(false)
-    });
+    renderLoading(true);
+    clientAPI
+      .createCards(handleAddPlaceSubmit)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        setIsAddPlacePopupOpen(false);
+      })
+      .finally(() => {
+        renderLoading(false);
+      });
   }
-  
+
   function renderLoading(isLoading) {
     const textButton = document.querySelector(".loading-button-text");
     const loading = document.querySelector(".loading-container");

@@ -84,7 +84,8 @@ export default function PopupWithForm(props) {
           onClick={handleSubmit}
         >
           <span className={`loading-button-text`}>Salvar</span>
-          <span className={`loading-container`}>Salvando...
+          <span className={`loading-container`}>
+            Salvando...
             <span className={`loading-animation`}></span>
           </span>
         </button>

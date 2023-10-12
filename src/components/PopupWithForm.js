@@ -80,13 +80,11 @@ export default function PopupWithForm(props) {
             !props.isValueValid ? `${props.name}__button-save_disabled` : ""
           }`}
           type="submit"
-          disabled={!props.isValueValid || props.isSaving}
+          disabled={!props.isValueValid}
           onClick={handleSubmit}
         >
-          <span className={`loading-button-text`}>
-            {props.isSaving ? "Salvando..." : "Salvar"}
-          </span>
-          <span className={`loading-container`}>
+          <span className={`loading-button-text`}>Salvar</span>
+          <span className={`loading-container`}>Salvando...
             <span className={`loading-animation`}></span>
           </span>
         </button>

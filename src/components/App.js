@@ -57,6 +57,7 @@ export default function App() {
   }
 
   function handleUpdateUser(updatedUser) {
+    renderLoading(true)
     clientAPI
       .updateDescriptionPerfil(updatedUser)
       .then((res) => {
@@ -65,10 +66,14 @@ export default function App() {
       })
       .catch((error) => {
         console.error("Erro ao atualizar o perfil:", error);
+      })
+      .finally(() => {
+        renderLoading(false)
       });
   }
 
   function handleUpdateAvatar(onUpdateAvatar) {
+    renderLoading(true);
     clientAPI
       .getProfilePicture(onUpdateAvatar)
       .then((res) => {
@@ -77,12 +82,14 @@ export default function App() {
       })
       .catch((error) => {
         console.error("Erro ao atualizar o avatar:", error);
+      })
+      .finally(() => {
+        renderLoading(false)
       });
   }
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     const apiMethod = isLiked ? "deleteLike" : "addLike";
-
     clientAPI[apiMethod](card._id)
       .then((updatedCard) => {
         const updatedCards = cards.map((c) =>
@@ -92,7 +99,7 @@ export default function App() {
       })
       .catch((error) => {
         console.error("Erro ao atualizar a curtida:", error);
-      });
+      })
   }
 
   function handleCardDelete(card) {
@@ -103,11 +110,28 @@ export default function App() {
   }
 
   function handleAddPlaceSubmit(handleAddPlaceSubmit) {
+    renderLoading(true)
     clientAPI.createCards(handleAddPlaceSubmit).then((newCard) => {
       setCards([newCard, ...cards]);
       setIsAddPlacePopupOpen(false);
+    })
+    .finally(() => {
+      renderLoading(false)
     });
   }
+  
+  function renderLoading(isLoading) {
+    const textButton = document.querySelector(".loading-button-text");
+    const loading = document.querySelector(".loading-container");
+    if (isLoading) {
+      textButton.classList.add("loading-closed");
+      loading.classList.add("loading-opened");
+    } else {
+      loading.classList.remove("loading-opened");
+      textButton.classList.remove("loading-closed");
+    }
+  }
+
   return (
     <>
       <Header />

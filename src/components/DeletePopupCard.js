@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function DeletePopupCard() {
+
+  const [isSaving, setIsSaving] = useState(false);
+
 
     return(
         <form className="delete" name="delete" novalidate>

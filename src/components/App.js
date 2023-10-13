@@ -9,7 +9,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import DeletePopupCard from "./DeletePopupCard";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentCardsContext from "../contexts/CurrentCardsContext";
-import { clientAPI } from "../utils/api";
+import { clientAPI } from "../utils/api.js";
 
 import "../index.css";
 

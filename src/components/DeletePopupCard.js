@@ -1,7 +1,6 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function DeletePopupCard(props) {
-
   const [shouldRenderPopup, setShouldRenderPopup] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -61,17 +60,17 @@ export default function DeletePopupCard(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  props.handleCardDelete()
+    props.handleCardDelete();
   };
 
-
   return (
-    <form className= {`delete ${shouldRenderPopup ? "popup_opened" : ""} ${
-      isClosing ? "popup_closing" : ""
-    }`}
-    name="delete"
-    onClick={handleOverlayClick}
-  >
+    <form
+      className={`delete ${shouldRenderPopup ? "popup_opened" : ""} ${
+        isClosing ? "popup_closing" : ""
+      }`}
+      name="delete"
+      onClick={handleOverlayClick}
+    >
       <div className="delete__popup">
         <h2 className="delete__popup-title">Tem certeza?</h2>
         <button
@@ -81,15 +80,16 @@ export default function DeletePopupCard(props) {
           type="submit"
           onClick={handleSubmit}
         >
-        <span className={`loading-button-text`}>Salvar</span>
+          <span className={`loading-button-text`}>Salvar</span>
           <span className={`loading-container`}>
             Salvando...
             <span className={`loading-animation`}></span>
           </span>
         </button>
-        <button className="delete__button-close-popup button-close-popup" onClick={handleOverlayClick}>
-        
-        </button>
+        <button
+          className="delete__button-close-popup button-close-popup"
+          onClick={handleOverlayClick}
+        ></button>
       </div>
     </form>
   );

@@ -49,7 +49,7 @@ export default function App() {
   }
 
   function handleDeleteCardClick(card) {
-    setIsDeletePopupOpen(true)
+    setIsDeletePopupOpen(true);
     setCardToDelete(card);
   }
 
@@ -57,7 +57,7 @@ export default function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setIsDeletePopupOpen(false)
+    setIsDeletePopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -113,14 +113,16 @@ export default function App() {
 
   function handleCardDelete() {
     renderLoading(true);
-    clientAPI.deleteCard(cardToDelete._id).then(() => {
-      const updatedCards = cards.filter((c) => c._id !== cardToDelete._id);
-      setCards(updatedCards);
-      setIsDeletePopupOpen(false)
-    })
-    .finally(() => {
-      renderLoading(false);
-    });
+    clientAPI
+      .deleteCard(cardToDelete._id)
+      .then(() => {
+        const updatedCards = cards.filter((c) => c._id !== cardToDelete._id);
+        setCards(updatedCards);
+        setIsDeletePopupOpen(false);
+      })
+      .finally(() => {
+        renderLoading(false);
+      });
   }
 
   function handleAddPlaceSubmit(handleAddPlaceSubmit) {

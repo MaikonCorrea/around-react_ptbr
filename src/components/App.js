@@ -6,6 +6,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import DeletePopupCard from "./DeletePopupCard";
 import { clientAPI } from "../utils/Api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentCardsContext from "../contexts/CurrentCardsContext";
@@ -16,7 +17,9 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [cardToDelete, setCardToDelete] = useState(null);
   const [cards, setCards] = useState([]);
 
   const [currentUser, setCurrentUser] = useState({});
@@ -45,10 +48,16 @@ export default function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  function handleDeleteCardClick(card) {
+    setIsDeletePopupOpen(true)
+    setCardToDelete(card);
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setIsDeletePopupOpen(false)
     setSelectedCard(null);
   }
 
@@ -102,10 +111,15 @@ export default function App() {
       });
   }
 
-  function handleCardDelete(card) {
-    clientAPI.deleteCard(card._id).then(() => {
-      const updatedCards = cards.filter((c) => c._id !== card._id);
+  function handleCardDelete() {
+    renderLoading(true);
+    clientAPI.deleteCard(cardToDelete._id).then(() => {
+      const updatedCards = cards.filter((c) => c._id !== cardToDelete._id);
       setCards(updatedCards);
+      setIsDeletePopupOpen(false)
+    })
+    .finally(() => {
+      renderLoading(false);
     });
   }
 
@@ -147,7 +161,7 @@ export default function App() {
             setCards={setCards}
             cards={cards}
             onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
+            onCardDelete={handleDeleteCardClick}
           />
 
           {selectedCard && (
@@ -181,6 +195,16 @@ export default function App() {
               isOpen={handleAddPlaceClick}
               onClose={closeAllPopups}
               onAddPlaceSubmit={handleAddPlaceSubmit}
+            />
+          )}
+
+          {isDeletePopupOpen && (
+            <DeletePopupCard
+              isOpen={handleDeleteCardClick}
+              onClose={() => setIsDeletePopupOpen(false)}
+              handleCardDelete={() => {
+                handleCardDelete();
+              }}
             />
           )}
 

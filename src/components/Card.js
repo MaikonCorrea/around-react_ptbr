@@ -8,6 +8,7 @@ export default function Card(props) {
   function handleClick() {
     props.onCardClick(props.card);
   }
+
   function handleLikeClick() {
     props.onCardLike(props.card);
   }

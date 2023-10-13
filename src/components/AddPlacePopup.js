@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
-import { owner } from "../utils/constants";
+import { owner } from "../constatnts/constants";
 
 export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
   const [title, setTitle] = useState("");
